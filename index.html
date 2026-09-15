@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LeafletJS</title>
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+        integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+
+    <style>
+        html,
+        body,
+        #map {
+            height: 100%;
+            margin: 0;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="map"></div>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+        integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+    <script>
+        var map = L.map('map').setView([-7.4530285, 110.4403639], 11);
+
+        // Tile Layer Base Map
+        var osm = L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+            attribution:
+                '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+        });
+
+        var Esri_WorldImagery = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+            attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'
+        });
+
+        var rupabumiindonesia = L.tileLayer('https://geoservices.big.go.id/rbi/rest/services/BASEMAP/Rupabumi_Indonesia/MapServer/tile/{z}/{y}/{x}', {
+            attribution: 'Badan Informasi Geospasial'
+        });
+        var OpenTopoMap = L.tileLayer('https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png', {
+            maxZoom: 17,
+            attribution: 'Map data: &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, <a href="http://viewfinderpanoramas.org">SRTM</a> | Map style: &copy; <a href="https://opentopomap.org">OpenTopoMap</a> (<a href="https://creativecommons.org/licenses/by-sa/3.0/">CC-BY-SA</a>)'
+        });
+        var Google_Satellite = L.tileLayer('https://{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}', {
+            maxZoom: 20,
+            subdomains: ["mt0", "mt1", "mt2", "mt3"],
+            attribution: 'Google'
+        });
+        // Menambahkan basemap ke dalam peta
+        OpenTopoMap.addTo(map);
+
+        // Marker
+        var marker = L.marker([-7.4530285, 110.4403639]);
+        var marker2 = L.marker([-7.5436125, 110.4457580]);
+        var marker3 = L.marker([-7.3837341, 110.0774492]);
+
+        // Menambahkan marker ke dalam peta
+        marker.addTo(map);
+        marker2.addTo(map);
+        marker3.addTo(map);
+
+        // Popup
+        marker.bindPopup("<b>Gunung Merbabu</b><br>Gunung Merbabu, gunung api strato di Magelang, Boyolali, dan Semarang, menjadi taman nasional sejak 4 Mei 2004 serta berfungsi sebagai sumber air dan habitat flora-fauna dilindungi.");
+        // marker.openPopup();
+        marker2.bindPopup("<b>Gunung Merapi</b><br>Gunung Merapi, gunung api strato aktif di Sleman (D.I. Yogyakarta), Magelang, Boyolali, dan Klaten, menjadi taman nasional sejak 2004 serta berfungsi sebagai pusat penelitian vulkanologi, sumber air, dan penopang ekosistem lereng.");
+        // marker.openPopup();
+        marker3.bindPopup("<b>Gunung Sumbing</b><br>Gunung Sumbing, gunung api strato di Magelang, Temanggung, dan Wonosobo, merupakan gunung tertinggi kedua di Jawa Tengah yang berfungsi sebagai area resapan air, habitat flora-fauna, serta penopang pertanian dataran tinggi.");
+        // marker.openPopup();
+
+        // Tooltip
+        marker.bindTooltip("Gunung Merbabu");
+        marker2.bindTooltip("Gunung Merapi");
+        marker3.bindTooltip("Gunung Sumbing");
+        // marker.openTooltip();
+
+        // Circle
+        var circle = L.circle([-7.6078981, 110.2039196], {
+            color: "blue", // warna garis
+            opacity: 1, // opacity garis
+            fillColor: "yellow", // warna fill
+            fillOpacity: 0.5, // opacity fill
+            radius: 3000, // radius dalam meter
+        });
+
+        // Menambahkan circle ke dalam peta
+        circle.addTo(map);
+
+        // Popup
+        circle.bindPopup("<b>Buffer</b><br>Candi Borobudur alam radius tiga kilometer");
+        circle.openPopup();
+
+        // Tooltip
+        circle.bindTooltip("Candi Borobudur", { sticky: true });
+        circle.openTooltip();
+
+        // Polyline
+        var vertexPolyline = [
+            [-7.5013759, 110.3937233],
+            [-7.4217749, 110.1376961],
+
+        ];
+        var polyline = L.polyline(vertexPolyline, {
+            color: "red", // warna garis
+            weight: 2, // ketebalan garis
+            opacity: 1, // opacity garis
+        });
+
+        // Menambahkan polyline ke dalam peta
+        polyline.addTo(map);
+
+        // Popup
+        polyline.bindPopup("<b>Hallo</b><br>Ini adalah popup polyline");
+        polyline.openPopup();
+
+        // Tooltip
+        polyline.bindTooltip("Ini adalah tooltip polyline");
+        polyline.openTooltip();
+
+        // Polygon
+        var vertexPolygon = [
+            [-7.4163316, 110.3683265],
+            [-7.3823092, 110.1493649],
+            [-7.5102195, 110.0903345],
+            [-7.5734804, 110.2667393],
+            [-7.5068181, 110.3944097]
+        ];
+        var polygon = L.polygon(vertexPolygon, {
+            color: "red", // warna garis
+            weight: 3, // ketebalan garis
+            opacity: 1, // opacity garis
+            fillColor: "pink", // warna fill
+            fillOpacity: 0.5, // opacity fill
+        });
+
+        // Popup
+        polygon.bindPopup("<b>Hallo</b><br>Ini adalah popup polygon");
+        polygon.openPopup();
+        // Tooltip
+        polygon.bindTooltip("Ini adalah tooltip polygon");
+        polygon.openTooltip();
+
+        // Menambahkan polygon ke dalam peta
+        polygon.addTo(map);
+
+
+        // Control Layer
+        var baseMaps = {
+            "OpenStreetMap": osm,
+            "Esri World Imagery": Esri_WorldImagery,
+            "Rupa Bumi Indonesia": rupabumiindonesia,
+            "Open Topo Map": OpenTopoMap,
+            "Google_Satellite": Google_Satellite,
+        };
+
+
+        var overlayMaps = {
+            "Merbabu": marker,
+            "Merapi": marker2,
+            "Sumbing": marker3,
+            "Buffer": circle,
+            "line": polyline,
+            "area": polygon
+        };
+
+
+        var controllayer = L.control.layers(baseMaps, overlayMaps, { collapsed: false });
+        controllayer.addTo(map);
+
+
+        // Scale
+        var scale = L.control.scale({
+            imperial: false,
+        });
+        scale.addTo(map);
+
+        // Geolocation
+        map.locate({
+            setView: true,
+            maxZoom: 16,
+        });
+
+        // Fungsi untuk menampilkan lokasi
+        function onLocationFound(e) {
+            var radius = e.accuracy / 2;
+
+            // Menampilkan marker pada lokasi 
+            L.marker(e.latlng).addTo(map).bindPopup("Anda berada dalam radius " + radius + " meter dari titik ini").openPopup();
+
+            // Menampilkan circle pada lokasi
+            L.circle(e.latlng, radius).addTo(map);
+        }
+
+        map.on("locationfound", onLocationFound);
+
+        // Fungsi untuk menampilkan pesan error
+        function onLocationError(e) {
+            alert(e.message);
+        }
+
+        map.on("locationerror", onLocationError);
+
+
+    </script>
+
+
+
+</body>
+
+</html>
